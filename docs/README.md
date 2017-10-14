@@ -1,7 +1,14 @@
 # Server Side Design
 
 ## Heroku Rest Server
-- `/reminders/` [get]
+- `user/` [post]
+    - userid
+    - email
+    - first_name
+    - last_name
+    - timezone
+    - updated_time
+
 - `/reminder/` [post]
     - user id
     - the person to follow up withs user name

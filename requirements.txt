@@ -2,3 +2,5 @@ gunicorn
 flask
 flask-restful
 flask-cors
+flask-sqlalchemy
+psycopg2
