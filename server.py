@@ -53,11 +53,11 @@ def createUser():
         db.session.commit()
     except exc.IntegrityError as e:
         # Malformed Entry
-        print e
+        print(e)
         return jsonify(success=False), 400
 
     except Exception as e:
-        print e
+        print(e)
         return jsonify(success=False), 500
 
     return jsonify(success=True), 200
