@@ -75,7 +75,8 @@ def createUser():
 @auto.doc()
 def createReminder():
     """
-    :return:
+    expects: {userid: int, followupUsername: string, reminderTime: datetime, notes: string(optional)}
+    returns: 200: reminder was successfully added 400: malformed json 500: unknown server error (DB)
     """
     args = parser.parse_args()
     if not args['userid']:
