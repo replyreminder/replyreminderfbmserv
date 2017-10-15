@@ -121,7 +121,6 @@ def getReminders():
         print(e)
         return jsonify(success=False), 500
 
-    print result
     return jsonify(result), 200
 
 
@@ -139,7 +138,7 @@ def markReminderSent():
         reminder = Reminder.query.filter_by(id=args['reminderid']).first()
         reminder.sent = True
         db.session.commit()
-        
+
     except exc.IntegrityError:
         return jsonify(success=False), 400
 

@@ -16,8 +16,12 @@ PAGE_ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
 Content-Type: application/json" -d ''
 
 """
+
+
 def getReminders():
     r = requests.get("https://replyreminder.herokuapp.com/reminders/")
+    print r.status_code
+    print r.json()
     if r.status_code == 200:
         return r.json()
 
@@ -33,16 +37,23 @@ def sendReminder(reminder):
                 "text": "hello, world!"
             }
            }
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, data)
-    pass
+    #r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, data)
+    return True
 
 
 def markReminderSent(reminderID):
-    pass
+    r = requests.get("https://replyreminder.herokuapp.com/reminder/sent", {'reminderid': reminderID})
+    if r.status_code == 200:
+        return True
+
+    return False
 
 
 def main():
-    pass
+    for each in getReminders():
+        print each
+        if sendReminder(each):
+            markReminderSent(each['id'])
 
 if __name__ == "__main__":
     main()
