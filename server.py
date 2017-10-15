@@ -155,12 +155,19 @@ def markReminderSent():
 
 @app.route("/webhook/", methods=['GET'])
 @auto.doc()
-def webhook():
+def webhookGet():
     args = parser.parse_args()
     if args['hub.mode'] == "subscribe" and args['hub.verify_token'] == 'this_is_the_verify_token_my_dude':
         return jsonify(int(args['hub.challenge'])), 200
 
     return jsonify(success=False), 403
+
+
+@app.route("/webhook/", methods=["POST"])
+@auto.doc()
+def webhookPost():
+    
+    pass
 
 
 def main():
