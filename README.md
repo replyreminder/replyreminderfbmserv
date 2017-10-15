@@ -10,12 +10,16 @@ ReplyReminder for Facebook Messenger server
     - expects: `{userid: int, email:string, first_name:string, last_name:string, timezone:datetime, updated_time:datetime}`
     - returns:
         - 200: user exists, or was created correctly
+        - 400: malformed json input
         - 500: unknown server error (DB)
 
 - `/reminder/` [POST]
     - create reminder endpoint
-    - expects:
+    - expects: `{userid: int, followupUsername: string, reminderTime: datetime, notes: string(optional)}`
     - returns:
+        - 200: reminder was successfully added
+        - 400: malformed json
+        - 500: unknown server error (DB)
     
 ## Notes
 - using flask postgresql and heroku

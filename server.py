@@ -5,8 +5,9 @@ import os
 from flask import Flask,  jsonify
 from flask_restful import reqparse
 from flask_cors import CORS
+from flask_autodoc import Autodoc
 
-# other imports
+# sql exceptions
 from sqlalchemy import exc
 
 # project imports
@@ -17,6 +18,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 CORS(app)
 db.init_app(app)
+auto = Autodoc(app)
 
 with app.app_context():
     db.create_all()
@@ -35,13 +37,15 @@ parser.add_argument('notes')
 
 @app.route("/")
 def test():
-    return jsonify(success=True), 200
+    return auto.html()
 
 
 @app.route("/user/", methods=['POST'])
+@auto.doc()
 def createUser():
     """
-    :return:
+    Json input {userid int, email string, first_name string, last_name string, timezone string, updated_timedatetime}
+    Responses 200 user successfully created or already exists, 400 malformed json input, 500 who knows?
     """
     args = parser.parse_args()
     if not args['userid']:
@@ -68,6 +72,7 @@ def createUser():
 
 
 @app.route("/reminder/", methods=['POST'])
+@auto.doc()
 def createReminder():
     """
     :return:

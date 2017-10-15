@@ -3,4 +3,5 @@ flask
 flask-restful
 flask-cors
 flask-sqlalchemy
+flask-autodoc
 psycopg2
