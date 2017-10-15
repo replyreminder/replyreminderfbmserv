@@ -21,7 +21,7 @@ class Person(db.Model):
     reminders = db.relationship('Reminder', backref=db.backref('person', lazy=True))
 
     def __repr__(self):
-        return '<User %r>' % self.title
+        return '<User %r>' % self.__dict__
 
 
 class Reminder(db.Model):
@@ -30,9 +30,9 @@ class Reminder(db.Model):
     followupUsername = db.Column(db.String(), nullable=False)
     reminderTime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     notes = db.Column(db.String())
-
+    sent = db.Column(db.Boolean(), default=False)
     def __repr__(self):
-        return '<Reminder %r>' % self.title
+        return '<Reminder %r>' % self.__dict__
 
 
 def main():

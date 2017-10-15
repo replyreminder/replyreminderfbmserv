@@ -103,6 +103,26 @@ def createReminder():
     return jsonify(success=True), 200
 
 
+@app.route("/reminders/", methods=["GET"])
+@auto.doc()
+def getReminders():
+    """
+    The endpoint for getting requests
+    return: [{userId:int, reminderTime: datetime, followupUsername: string, notes: string}]
+    """
+    try:
+        result = [x.__dict__ for x in Reminder.query.filter_by(sent=False).all()]
+        # todo: figure out how to not have this in the result in the first place
+        for x in result:
+            x.pop('_sa_instance_state', None)
+
+    except Exception as e:
+        print(e)
+        return jsonify(success=False), 500
+
+    print result
+    return jsonify(result), 200
+
 def main():
     app.run(host='0.0.0.0')
 
