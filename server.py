@@ -7,7 +7,7 @@ from flask_restful import reqparse
 from flask_cors import CORS
 
 # other imports
-import psycopg2.IntegrityError
+from sqlalchemy import exc
 
 # project imports
 from replyreminder.models import db, Person, Reminder
@@ -43,17 +43,21 @@ def createUser():
     :return:
     """
     args = parser.parse_args()
+    if Person.query.filter_by(userid=args['userid']).first():
+        return jsonify(success=True), 200
+
     try:
         db.session.add(Person(userid=args['userid'], email=args['email'],
                             first_name=args['first_name'], last_name=args['last_name'],
                             timezone=args['timezone'], updated_time=args['updated_time']))
         db.session.commit()
-    except psycopg2.IntegrityError as e:
-        # User already exists
+    except exc.IntegrityError as e:
+        # Malformed Entry
         print e
-        return jsonify(success=True), 200
+        return jsonify(success=False), 400
 
     except Exception as e:
+        print e
         return jsonify(success=False), 500
 
     return jsonify(success=True), 200
