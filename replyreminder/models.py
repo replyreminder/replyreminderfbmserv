@@ -11,20 +11,22 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-class User(db.Model):
+class Person(db.Model):
     userid = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(), nullable=False)
     first_name = db.Column(db.String(), nullable=False)
     last_name = db.Column(db.String(), nullable=False)
     timezone = db.Column(db.String(), nullable=False)
     updated_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    reminders = db.relationship('Reminder', backref=db.backref('person', lazy=True))
 
     def __repr__(self):
         return '<User %r>' % self.title
 
 
 class Reminder(db.Model):
-    userid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, db.ForeignKey('person.userid'), nullable=False)
     followupUsername = db.Column(db.String(), nullable=False)
     reminderTime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     notes = db.Column(db.String())

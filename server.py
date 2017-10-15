@@ -6,8 +6,11 @@ from flask import Flask,  jsonify
 from flask_restful import reqparse
 from flask_cors import CORS
 
+# other imports
+import psycopg2.IntegrityError
+
 # project imports
-from replyreminder.models import db
+from replyreminder.models import db, Person, Reminder
 
 # app setup
 app = Flask(__name__)
@@ -40,6 +43,18 @@ def createUser():
     :return:
     """
     args = parser.parse_args()
+    try:
+        db.session.add(Person(userid=args['userid'], email=args['email'],
+                            first_name=args['first_name'], last_name=args['last_name'],
+                            timezone=args['timezone'], updated_time=args['updated_time']))
+        db.session.commit()
+    except psycopg2.IntegrityError as e:
+        # User already exists
+        print e
+        return jsonify(success=True), 200
+
+    except Exception as e:
+        return jsonify(success=False), 500
 
     return jsonify(success=True), 200
 
@@ -50,6 +65,16 @@ def createReminder():
     :return:
     """
     args = parser.parse_args()
+    # todo: find some super cool way to do this
+    try:
+        user = Person(name=args['userid'])
+        user.reminders.append(Reminder(userid=args['id'], followupUsername=args['followupUsername'],
+                                reminderTime=args['reminderTime'], notes=args['notes']))
+        db.session.add(user)
+        db.session.commit()
+    except:
+        return jsonify(success=False), 400
+
     return jsonify(success=True), 200
 
 
