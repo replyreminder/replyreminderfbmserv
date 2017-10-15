@@ -3,7 +3,7 @@ ReplyReminder for Facebook Messenger server
 
 # Server Endpoints
 - `/`
-    - test enpoint. REturns 200 if server is up
+    - test endpoint. Returns 200 if server is up
 
 - `/user/` [POST]
     - create user endpoint

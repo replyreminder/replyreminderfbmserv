@@ -29,8 +29,9 @@ parser.add_argument('first_name')
 parser.add_argument('last_name')
 parser.add_argument('timezone')
 parser.add_argument('updated_time')
-parser.add_argument('followupUser')
+parser.add_argument('followupUsername')
 parser.add_argument('reminderTime')
+parser.add_argument('notes')
 
 @app.route("/")
 def test():
@@ -72,15 +73,26 @@ def createReminder():
     :return:
     """
     args = parser.parse_args()
-    # todo: find some super cool way to do this
-    try:
-        user = Person(name=args['userid'])
-        user.reminders.append(Reminder(userid=args['id'], followupUsername=args['followupUsername'],
-                                reminderTime=args['reminderTime'], notes=args['notes']))
-        db.session.add(user)
-        db.session.commit()
-    except:
+    if not args['userid']:
         return jsonify(success=False), 400
+
+    if not Person.query.filter_by(userid=args['userid']).first():
+        return jsonify(success=False), 400
+
+    try:
+        # todo: find some super cool way to do this
+        db.session.add(Reminder(userid=args['userid'], followupUsername=args['followupUsername'],
+                                       reminderTime=args['reminderTime'], notes=args['notes']))
+        db.session.commit()
+
+    except exc.IntegrityError as e:
+        # Malformed Entry
+        print(e)
+        return jsonify(success=False), 400
+
+    except Exception as e:
+        print(e)
+        return jsonify(success=False), 500
 
     return jsonify(success=True), 200
 
