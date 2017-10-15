@@ -158,7 +158,7 @@ def markReminderSent():
 def webhook():
     args = parser.parse_args()
     if args['hub.mode'] == "subscribe" and args['hub.verify_token'] == 'this_is_the_verify_token_my_dude':
-        return jsonify(args['hub.challenge']), 200
+        return jsonify(int(args['hub.challenge'])), 200
 
     return jsonify(success=False), 403
 
