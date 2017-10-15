@@ -34,6 +34,7 @@ parser.add_argument('updated_time')
 parser.add_argument('followupUsername')
 parser.add_argument('reminderTime')
 parser.add_argument('notes')
+parser.add_argument('reminderid')
 
 @app.route("/")
 def test():
@@ -122,6 +123,32 @@ def getReminders():
 
     print result
     return jsonify(result), 200
+
+
+@app.route("/reminder/sent/", methods=["POST"])
+@auto.doc()
+def markReminderSent():
+    """
+    :return:
+    """
+    args = parser.parse_args()
+    if not args['reminderid']:
+        return jsonify(success=False), 400
+
+    try:
+        reminder = Reminder.query.filter_by(id=args['reminderid']).first()
+        reminder.sent = True
+        db.session.commit()
+        
+    except exc.IntegrityError:
+        return jsonify(success=False), 400
+
+    except Exception as e:
+        print(e)
+        return jsonify(success=False), 500
+
+    return jsonify(success=True), 200
+
 
 def main():
     app.run(host='0.0.0.0')

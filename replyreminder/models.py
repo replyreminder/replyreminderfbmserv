@@ -31,6 +31,7 @@ class Reminder(db.Model):
     reminderTime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     notes = db.Column(db.String())
     sent = db.Column(db.Boolean(), default=False)
+
     def __repr__(self):
         return '<Reminder %r>' % self.__dict__
 
