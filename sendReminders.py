@@ -20,8 +20,6 @@ Content-Type: application/json" -d ''
 
 def getReminders():
     r = requests.get("https://replyreminder.herokuapp.com/reminders/")
-    print r.status_code
-    print r.json()
     if r.status_code == 200:
         return r.json()
 
@@ -42,7 +40,8 @@ def sendReminder(reminder):
 
 
 def markReminderSent(reminderID):
-    r = requests.get("https://replyreminder.herokuapp.com/reminder/sent", {'reminderid': reminderID})
+    r = requests.post("https://replyreminder.herokuapp.com/reminder/sent/", {'reminderid': reminderID})
+    print r.status_code
     if r.status_code == 200:
         return True
 
@@ -51,7 +50,6 @@ def markReminderSent(reminderID):
 
 def main():
     for each in getReminders():
-        print each
         if sendReminder(each):
             markReminderSent(each['id'])
 

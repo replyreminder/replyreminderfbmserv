@@ -35,6 +35,11 @@ parser.add_argument('followupUsername')
 parser.add_argument('reminderTime')
 parser.add_argument('notes')
 parser.add_argument('reminderid')
+parser.add_argument('hub.mode')
+parser.add_argument('hub.challenge')
+parser.add_argument('hub.verify_token')
+
+
 
 @app.route("/")
 def test():
@@ -147,6 +152,15 @@ def markReminderSent():
         return jsonify(success=False), 500
 
     return jsonify(success=True), 200
+
+@app.route("/webhook/", methods=['GET'])
+@auto.doc()
+def webhook():
+    args = parser.parse_args()
+    if args['hub.mode'] == "subscribe" and args['hub.verify_token'] == 'this_is_the_verify_token_my_dude':
+        return jsonify(args['hub.challenge']), 200
+
+    return jsonify(success=False), 403
 
 
 def main():
