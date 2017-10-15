@@ -5,15 +5,15 @@ import os
 from flask import Flask,  jsonify
 from flask_restful import reqparse
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
 
 # project imports
+from replyreminder.models import db
 
 # app setup
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 CORS(app)
-db = SQLAlchemy(app)
+db.init_app(app)
 
 # parser args
 parser = reqparse.RequestParser()
