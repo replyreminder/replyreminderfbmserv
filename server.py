@@ -43,6 +43,9 @@ def createUser():
     :return:
     """
     args = parser.parse_args()
+    if not args['userid']:
+        return jsonify(success=False), 400
+
     if Person.query.filter_by(userid=args['userid']).first():
         return jsonify(success=True), 200
 
