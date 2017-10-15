@@ -15,6 +15,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 CORS(app)
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 # parser args
 parser = reqparse.RequestParser()
 parser.add_argument('userid')
