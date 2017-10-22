@@ -27,6 +27,7 @@ with app.app_context():
 # parser args
 parser = reqparse.RequestParser()
 parser.add_argument('userid')
+parser.add_argument('psid')
 parser.add_argument('email')
 parser.add_argument('first_name')
 parser.add_argument('last_name')
@@ -62,7 +63,7 @@ def createUser():
         return jsonify(success=True), 200
 
     try:
-        db.session.add(Person(userid=args['userid'], email=args['email'],
+        db.session.add(Person(userid=args['userid'], psid=args['psid'], email=args['email'],
                             first_name=args['first_name'], last_name=args['last_name'],
                             timezone=args['timezone'], updated_time=args['updated_time']))
         db.session.commit()
