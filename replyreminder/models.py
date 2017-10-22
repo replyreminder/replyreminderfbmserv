@@ -12,7 +12,7 @@ db = SQLAlchemy()
 
 
 class Person(db.Model):
-    userid = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.String(), primary_key=True)
     email = db.Column(db.String(), nullable=False)
     first_name = db.Column(db.String(), nullable=False)
     last_name = db.Column(db.String(), nullable=False)
@@ -26,7 +26,7 @@ class Person(db.Model):
 
 class Reminder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userid = db.Column(db.Integer, db.ForeignKey('person.userid'), nullable=False)
+    userid = db.Column(db.String(), db.ForeignKey('person.userid'), nullable=False)
     followupUsername = db.Column(db.String(), nullable=False)
     reminderTime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     notes = db.Column(db.String())
