@@ -28,7 +28,7 @@ class Person(db.Model):
 
 class Reminder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userid = db.Column(db.String(), db.ForeignKey('person.userid'), nullable=False)
+    userid = db.Column(db.String(), db.ForeignKey('person.psid'), nullable=False)
     followupUsername = db.Column(db.String(), nullable=False)
     reminderTime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     notes = db.Column(db.String())
