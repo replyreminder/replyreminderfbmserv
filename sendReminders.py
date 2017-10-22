@@ -29,6 +29,8 @@ def getReminders():
 
 
 def sendLoginButton(psid):
+    print(psid)
+    
     data = {
                 "recipient": {
                     "id": psid
@@ -49,6 +51,10 @@ def sendLoginButton(psid):
             }
 
     r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, json.dumps(data), headers={'Content-Type': 'application/json'})
+    print(r.status_code)
+    print(r.text)
+    return True
+
 
 def sendReminder(reminder):
     data = {
