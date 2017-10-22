@@ -168,11 +168,11 @@ def webhookGet():
 @auto.doc()
 def webhookPost():
     body = json.loads(request.data)
-    if body.object == "page":
-        for each in body.entry:
-            webhookEvent = each.messaging[0]
+    if body['object'] == "page":
+        for each in body['entry']:
+            webhookEvent = each['messaging'][0]
             print(webhookEvent)
-            
+
     else:
         return jsonify(success=False), 404
 
