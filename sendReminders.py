@@ -29,13 +29,14 @@ def getReminders():
 def sendReminder(reminder):
     data = {
             "recipient": {
-                "id": "<PSID>"
+                "id": reminder['userid']
             },
             "message": {
                 "text": "hello, world!"
             }
            }
-    #r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, data)
+
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, data)
     return True
 
 
