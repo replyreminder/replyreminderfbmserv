@@ -41,7 +41,7 @@ def sendReminder(reminder):
 
 def markReminderSent(reminderID):
     r = requests.post("https://replyreminder.herokuapp.com/reminder/sent/", {'reminderid': reminderID})
-    print r.status_code
+    print(r.status_code)
     if r.status_code == 200:
         return True
 
