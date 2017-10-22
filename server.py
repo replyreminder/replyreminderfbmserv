@@ -175,7 +175,7 @@ def webhookPost():
             for messagingEvent in each['messaging']:
                 if 'postback' in messagingEvent:
                     print("This is a postback")
-                    print messagingEvent
+                    print(messagingEvent)
 
                 elif 'message' in messagingEvent:
                     print("This is a message")
