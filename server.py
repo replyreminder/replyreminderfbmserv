@@ -183,12 +183,13 @@ def webhookPost():
                 if 'postback' in messagingEvent:
                     print("This is a postback")
                     print(messagingEvent)
+                    if messagingEvent['postback']['payload'] == 'get_started':
+                        print("sending login button")
+
+                        sendLoginButton(messagingEvent['sender']['id'])
 
                 elif 'message' in messagingEvent:
                     print("This is a message")
-                    if messagingEvent['postback']['payload'] == 'get_started':
-                        print("sending login button")
-                        sendLoginButton(messagingEvent['sender']['id'])
                     print(messagingEvent)
 
                 else:

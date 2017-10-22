@@ -30,7 +30,7 @@ def getReminders():
 
 def sendLoginButton(psid):
     print(psid)
-    
+
     data = {
                 "recipient": {
                     "id": psid
