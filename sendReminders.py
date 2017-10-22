@@ -1,6 +1,7 @@
 # stdlib imports
 import os
 import time
+import json
 
 # other imports
 import requests
@@ -33,11 +34,11 @@ def sendReminder(reminder):
                 "id": reminder['userid']
             },
             "message": {
-                "text": "hello, world!"
+                "text": reminder['followupUsername'] + '\n' + reminder['notes']
             }
            }
 
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, data)
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, json.dumps(data), headers={'Content-Type': 'application/json'})
     return True
 
 
