@@ -13,7 +13,7 @@ from sqlalchemy import exc
 
 # project imports
 from replyreminder.models import db, Person, Reminder
-from sendReminders import sendLoginButton
+from sendReminders import sendLoginButton, getPSID
 
 # app setup
 app = Flask(__name__)
@@ -28,6 +28,8 @@ with app.app_context():
 # parser args
 parser = reqparse.RequestParser()
 parser.add_argument('userid')
+parser.add_argument('account_linking_token')
+parser.add_argument('gsid')
 parser.add_argument('psid')
 parser.add_argument('email')
 parser.add_argument('first_name')
@@ -153,6 +155,37 @@ def markReminderSent():
     except Exception as e:
         print(e)
         return jsonify(success=False), 500
+
+    return jsonify(success=True), 200
+
+@app.route('/linkaccount/', methods=['POST'])
+@auto.doc()
+def linkAccount():
+    args = parser.parse_args()
+    if 'gsid' not in args or 'account_linking_token' not in args:
+        return jsonify(success=False), 400
+
+    psid = getPSID(args['account_linking_token'])
+
+    user = Person.query.filter_by(gsid=args['gsid']).first()
+    if user:
+        # user already exists
+        if user.psid != psid:
+            user.psid = psid
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return jsonify(success=False), 500
+
+    else:
+        newUser = Person(gsid=args['gsid'], psid=psid)
+        try:
+            db.session.add(newUser)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return jsonify(success=False), 500
 
     return jsonify(success=True), 200
 

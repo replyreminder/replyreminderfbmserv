@@ -13,12 +13,13 @@ db = SQLAlchemy()
 
 class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userid = db.Column(db.String(), unique=True)
-    email = db.Column(db.String(), nullable=False)
-    first_name = db.Column(db.String(), nullable=False)
-    last_name = db.Column(db.String(), nullable=False)
-    timezone = db.Column(db.String(), nullable=False)
-    updated_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    gsid = db.Column(db.String(), unique=True, nullable=False)
+    psid = db.Column(db.String(), unique=True, nullable=False)
+    email = db.Column(db.String(), nullable=True)
+    first_name = db.Column(db.String(), nullable=True)
+    last_name = db.Column(db.String(), nullable=True)
+    timezone = db.Column(db.String(), nullable=True)
+    updated_time = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
     reminders = db.relationship('Reminder', backref=db.backref('person', lazy=True))
 
     def __repr__(self):
