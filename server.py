@@ -1,8 +1,9 @@
 # stdlib imports
 import os
+import json
 
 # flask imports
-from flask import Flask,  jsonify, request
+from flask import Flask,  jsonify, request, abort
 from flask_restful import reqparse
 from flask_cors import CORS
 from flask_autodoc import Autodoc
@@ -166,9 +167,16 @@ def webhookGet():
 @app.route("/webhook/", methods=["POST"])
 @auto.doc()
 def webhookPost():
-    print(request.args)
-    print(request.data)
-    return jsonify(success=True), 200
+    body = json.loads(request.data)
+    if body.object == "page":
+        for each in body.entry:
+            webhookEvent = each.messaging[0]
+            print(webhookEvent)
+            
+    else:
+        return jsonify(success=False), 404
+
+    return abort(500)
 
 
 def main():
