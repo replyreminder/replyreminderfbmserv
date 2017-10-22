@@ -13,7 +13,6 @@ db = SQLAlchemy()
 
 class Person(db.Model):
     userid = db.Column(db.Integer, primary_key=True)
-    psid = db.Column(db.Integer, nullable=False)
     email = db.Column(db.String(), nullable=False)
     first_name = db.Column(db.String(), nullable=False)
     last_name = db.Column(db.String(), nullable=False)

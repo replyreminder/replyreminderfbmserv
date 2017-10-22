@@ -7,7 +7,7 @@ ReplyReminder for Facebook Messenger server
 
 - `/user/` [POST]
     - create user endpoint
-    - expects: `{userid: int, psid:int, email:string, first_name:string, last_name:string, timezone:datetime, updated_time:datetime}`
+    - expects: `{userid: int, email:string, first_name:string, last_name:string, timezone:datetime, updated_time:datetime}`
     - returns:
         - 200: user exists, or was created correctly
         - 400: malformed json input

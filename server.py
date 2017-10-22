@@ -63,7 +63,7 @@ def createUser():
         return jsonify(success=True), 200
 
     try:
-        db.session.add(Person(userid=args['userid'], psid=args['psid'], email=args['email'],
+        db.session.add(Person(userid=args['userid'], email=args['email'],
                             first_name=args['first_name'], last_name=args['last_name'],
                             timezone=args['timezone'], updated_time=args['updated_time']))
         db.session.commit()
