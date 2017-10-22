@@ -167,7 +167,8 @@ def webhookGet():
 @auto.doc()
 def webhookPost():
     print(request.args)
-    return jsonify(success = True), 200
+    print(request.data)
+    return jsonify(success=True), 200
 
 
 def main():
