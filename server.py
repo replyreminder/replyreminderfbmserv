@@ -155,6 +155,12 @@ def markReminderSent():
 
     return jsonify(success=True), 200
 
+@app.route('/<path:path>')
+def catch_all(path):
+    print("catch path")
+    print(path)
+    return jsonify(success=False), 404
+
 @app.route("/webhook/", methods=['GET'])
 @auto.doc()
 def webhookGet():
