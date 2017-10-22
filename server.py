@@ -2,7 +2,7 @@
 import os
 
 # flask imports
-from flask import Flask,  jsonify
+from flask import Flask,  jsonify, request
 from flask_restful import reqparse
 from flask_cors import CORS
 from flask_autodoc import Autodoc
@@ -166,8 +166,8 @@ def webhookGet():
 @app.route("/webhook/", methods=["POST"])
 @auto.doc()
 def webhookPost():
-    
-    pass
+    print request
+    return jsonify(success = True), 200
 
 
 def main():
