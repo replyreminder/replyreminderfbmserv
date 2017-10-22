@@ -178,7 +178,7 @@ def webhookPost():
     else:
         return jsonify(success=False), 404
 
-    return abort(500)
+    return jsonify(success=True), 200
 
 
 def main():
