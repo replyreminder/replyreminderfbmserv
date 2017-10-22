@@ -13,6 +13,7 @@ from sqlalchemy import exc
 
 # project imports
 from replyreminder.models import db, Person, Reminder
+from sendReminders import sendLoginButton
 
 # app setup
 app = Flask(__name__)
@@ -185,6 +186,8 @@ def webhookPost():
 
                 elif 'message' in messagingEvent:
                     print("This is a message")
+                    if messagingEvent['postback']['payload'] == 'get_started':
+                        sendLoginButton(messagingEvent['sender']['id'])
                     print(messagingEvent)
 
                 else:

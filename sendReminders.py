@@ -28,6 +28,28 @@ def getReminders():
     return []
 
 
+def sendLoginButton(psid):
+    data = {
+                "recipient": {
+                    "id": psid
+                },
+                "message": {
+                    "attachment": {
+                        "type": "template",
+                        "payload": {
+                            "template_type": "button",
+                            "text": "login with Facebook to get started",
+                            "buttons": [{
+                                "type": "account_link",
+                                "url": "http://replyreminder.com/login/"
+                            }]
+                        }
+                    }
+                }
+            }
+
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+PAGE_ACCESS_TOKEN, json.dumps(data), headers={'Content-Type': 'application/json'})
+
 def sendReminder(reminder):
     data = {
             "recipient": {
