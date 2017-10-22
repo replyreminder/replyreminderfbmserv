@@ -12,7 +12,8 @@ db = SQLAlchemy()
 
 
 class Person(db.Model):
-    userid = db.Column(db.String(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.String(), unique=True)
     email = db.Column(db.String(), nullable=False)
     first_name = db.Column(db.String(), nullable=False)
     last_name = db.Column(db.String(), nullable=False)
