@@ -34,7 +34,7 @@ def sendReminder(reminder):
                 "id": reminder['userid']
             },
             "message": {
-                "text": reminder['followupUsername'] + '\n' + reminder['notes']
+                "text": str(reminder['followupUsername']) + '\n' + str(reminder['notes'])
             }
            }
 
