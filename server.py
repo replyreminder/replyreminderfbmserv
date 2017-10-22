@@ -168,6 +168,7 @@ def webhookGet():
 @auto.doc()
 def webhookPost():
     body = json.loads(request.data)
+    print(body)
     if body['object'] == "page":
         for each in body['entry']:
             for message in each['messaging']:
