@@ -166,7 +166,7 @@ def webhookGet():
 @app.route("/webhook/", methods=["POST"])
 @auto.doc()
 def webhookPost():
-    print(request)
+    print(request.args)
     return jsonify(success = True), 200
 
 
