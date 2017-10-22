@@ -172,8 +172,18 @@ def webhookPost():
     print(body)
     if body['object'] == "page":
         for each in body['entry']:
-            for message in each['messaging']:
-                print(message)
+            for messagingEvent in each['messaging']:
+                if 'postback' in messagingEvent:
+                    print("This is a postback")
+                    print messagingEvent
+
+                elif 'message' in messagingEvent:
+                    print("This is a message")
+                    print(messagingEvent)
+
+                else:
+                    print("I have no clue what this is")
+                    print messagingEvent
 
     else:
         return jsonify(success=False), 404
