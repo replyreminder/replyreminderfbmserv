@@ -13,7 +13,7 @@ from sqlalchemy import exc
 
 # project imports
 from replyreminder.models import db, Person, Reminder
-from sendReminders import sendLoginButton, getPSID
+from sendReminders import sendLoginButton, getPSID, getUserId
 
 # app setup
 app = Flask(__name__)
@@ -29,6 +29,7 @@ with app.app_context():
 parser = reqparse.RequestParser()
 parser.add_argument('userid')
 parser.add_argument('account_linking_token')
+parser.add_argument('auth_token')
 parser.add_argument('gsid')
 parser.add_argument('psid')
 parser.add_argument('email')
@@ -90,11 +91,21 @@ def createReminder():
     returns: 200: reminder was successfully added 400: malformed json 500: unknown server error (DB)
     """
     args = parser.parse_args()
+    if not args['auth_token']:
+        return jsonify(success=False), 400
+
     if not args['userid']:
         return jsonify(success=False), 400
 
-    if not Person.query.filter_by(userid=args['userid']).first():
+    user = Person.query.filter_by(gsid=args['userid']).first()
+
+    if getUserId(args['auth_token']) != user.gsid:
+        return jsonify(success=False, msg="invalid auth_token for userid"), 400
+
+    if not user:
         return jsonify(success=False), 400
+
+    args['userid'] = user.psid  # switching from gsid to psid
 
     try:
         # todo: find some super cool way to do this
@@ -164,6 +175,9 @@ def linkAccount():
     args = parser.parse_args()
     if 'gsid' not in args or 'account_linking_token' not in args:
         return jsonify(success=False), 400
+
+    if getUserId(args['auth_token']) != args['gsid']:
+        return jsonify(success=False, msg="invalid auth_token for userid"), 400
 
     psid = getPSID(args['account_linking_token'])
 

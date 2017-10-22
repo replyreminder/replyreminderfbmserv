@@ -28,6 +28,14 @@ def getReminders():
     return []
 
 
+def getUserId(token):
+    r = requests.get("https://graph.facebook.com/debug_token?input_token="+token+"&access_token="+PAGE_ACCESS_TOKEN)
+
+    if r.status_code == 200:
+        return r.json()['data']['user_id']
+
+    return ''
+
 def getPSID(account_linking_token):
     r = requests.get("https://graph.facebook.com/v2.6/me?access_token="+PAGE_ACCESS_TOKEN +
                      "&fields=recipient" +
@@ -37,6 +45,7 @@ def getPSID(account_linking_token):
         return r.json()['recipient']
 
     return []
+
 
 def sendLoginButton(psid):
     print(psid)
